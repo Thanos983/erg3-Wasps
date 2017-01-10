@@ -1,5 +1,13 @@
 import random
 import math
+import time
+try:
+    import operator
+except ImportError:
+    print("Warning: No operator is imported.\n Install operator for better performance \n")
+    key_fun = lambda sol: sol.fitness  # Use lamba if no operator is imported
+else:
+    key_fun = operator.attrgetter("fitness")
 
 
 class Bomb:
@@ -19,17 +27,12 @@ class Bomb:
     def fitness(self, cnests):
         """
 
-        :param dmax: Maximum Distance
         :param cnests: Coordinates of nests
-        :param number_of_nests: NumberOfSolutions of nests
         :return: How many kills did this bomb to all nests
         """
         dmax = maxDistance(cnests)
-        kills = 0
-        distance = 0
-        damage = 0
 
-        for i in range(1, cnests.__len__()+1):
+        for i in range(1, cnests.__len__() + 1):
             distance = math.sqrt((cnests[i][0] - self.x1) ** 2 + (cnests[i][1] - self.y1) ** 2)
             damage = round(cnests[i][2] * dmax / (20 * distance + 0.00001))  # Many zeros occur due to truncation
 
@@ -42,36 +45,33 @@ class Bomb:
         return self.count
 
 
+# <================================== End of class Bomb ==================================>
+# <=======================================================================================>
+
+
 class Solution:
     """
     Solution consist of a list with 3 bombs
     """
-    bombPos = []
+
+    # bombPos = []
 
     def __init__(self, x1, y1, x2, y2, x3, y3, cnests):
-        self.bombPos.append(Bomb(x1, y1))
-        self.bombPos.append(Bomb(x2, y2))
-        self.bombPos.append(Bomb(x3, y3))
+        self.b1 = Bomb(x1, y1)
+        self.b2 = Bomb(x2, y2)
+        self.b3 = Bomb(x3, y3)
         self.fitness = self.SolutionFitness(cnests)
-
-    def get_Pos(self):
-        return self.bombPos
 
     def SolutionFitness(self, cnests):
         """
-
-        :param dmax: Maximum distance of nests
-        :param cnests: dictionary containing coordinates of nest
-        :param numberOfNests: how many nests exist
-        :return: How many death of wasps occur by this solution
+        :param cnests:
+        :return: The total fitness of solution
         """
+        return self.b1.fitness(cnests) + self.b2.fitness(cnests) + self.b3.fitness(cnests)
 
-        count = 0
 
-        for i in range(3):  # Number of bombs
-            count += self.bombPos[i].fitness(cnests)
-
-        return count
+# <================================== End of class Solution ==============================>
+# <=======================================================================================>
 
 
 def maxDistance(nest):
@@ -99,7 +99,6 @@ def openFile():
 
     anests = {}
     count = 0
-    count = 0
 
     with open("nests.txt", "r") as file:
         for line in file:
@@ -111,7 +110,6 @@ def openFile():
 
 
 def visualiseNests(nests):
-
     # Separate x,y values in order to create a graph of nests
     x_axis = []
     y_axis = []
@@ -123,36 +121,33 @@ def visualiseNests(nests):
         y_axis.append(nests[c][1])
         number_of_wasps.append(nests[c][2])
 
-    # Visualize nests
-    # mp.plot(x_axis, y_axis, 'mD')
-    # mp.axis([0, 100, 0, 100])
-    # mp.show()
+        # Visualize nests
+        # mp.plot(x_axis, y_axis, 'mD')
+        # mp.axis([0, 100, 0, 100])
+        # mp.show()
 
 
 def main():
-    nubmerofbombs = 3
-
-    # reading nests co-ordinates from a txt
-    nests = openFile()
-
     bombs = []
-    NumberOfSolutions = 3  # Preferable NumberOfSolutions 100000
+    number_of_solutions = 10000  # Preferable number_of_solutions 100000
 
-    # Populate bombs with random NumberOfSolutions. Will have 6 float numbers with 3 digit precision
-    for i in range(NumberOfSolutions):  # Preferable range 100000
-        randomBomb = random.sample(range(100000), 6)
-        randomBomb[:] = [x / 1000 for x in randomBomb]
-        copy_nests = nests.copy()
-        bombs.append(Solution(randomBomb[0], randomBomb[1], randomBomb[2], randomBomb[3], randomBomb[4], randomBomb[5], copy_nests))
-        print(nests)
-        print(copy_nests)
-        print()
+    # Populate bombs with random number_of_solutions. Will have 6 float numbers with 3 digit precision
+    for i in range(number_of_solutions):  # Preferable range 100000
+        random_bomb = random.sample(range(100000), 6)
+        random_bomb[:] = [x / 1000 for x in random_bomb]
+        copy_nests = openFile()  # reading the coordinates of the nests. That should be done once before for loop
+        bombs.append(Solution(random_bomb[0], random_bomb[1], random_bomb[2], random_bomb[3], random_bomb[4],
+                              random_bomb[5], copy_nests))
 
-    testVar = bombs[0].get_Pos()[0].getX()[1]
     # Finally got it. Accessed into a variable of class bomb
+    t0 = time.time()
+    bombs.sort(key=key_fun, reverse=True)
+    t1 = time.time()
 
-    for i in range(NumberOfSolutions):
-        print(bombs[i].fitness)
+    # for i in range(number_of_solutions):
+    #     print(bombs[i].fitness)
+
+    print("Total time of sort without getitem: ", t1-t0)
 
 if __name__ == '__main__':
     main()
