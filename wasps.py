@@ -1,6 +1,6 @@
 import random
 import math
-import time
+
 try:
     import operator
 except ImportError:
@@ -97,16 +97,16 @@ def openFile():
     Opens the file and returns a dictionary with the coordinates of nest and the number of bees inside
     """
 
-    anests = {}
+    nests = {}
     count = 0
 
     with open("nests.txt", "r") as file:
         for line in file:
             reader = line.split()
             count += 1
-            anests[count] = [int(reader[0]), int(reader[1]), int(reader[2])]
+            nests[count] = [int(reader[0]), int(reader[1]), int(reader[2])]
 
-    return anests
+    return nests
 
 
 def visualiseNests(nests):
@@ -139,15 +139,11 @@ def main():
         bombs.append(Solution(random_bomb[0], random_bomb[1], random_bomb[2], random_bomb[3], random_bomb[4],
                               random_bomb[5], copy_nests))
 
-    # Finally got it. Accessed into a variable of class bomb
-    t0 = time.time()
     bombs.sort(key=key_fun, reverse=True)
-    t1 = time.time()
 
-    # for i in range(number_of_solutions):
-    #     print(bombs[i].fitness)
+    for i in bombs:
+        print(i.fitness)
 
-    print("Total time of sort without getitem: ", t1-t0)
 
 if __name__ == '__main__':
     main()
