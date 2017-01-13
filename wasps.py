@@ -118,7 +118,7 @@ class Solution:
 
         sum_of_solutions = int((lenght*(lenght+1)) / 2)
 
-        self.probability = (lenght - position_of_solution + 1)/ sum_of_solutions
+        self.probability = ((lenght - position_of_solution + 1)/ sum_of_solutions) * 100
 
 # <================================== End of class Solution ==============================>
 # <=======================================================================================>
@@ -204,8 +204,8 @@ def main():
     ss = 0
     for i in range(number_of_solutions):
         Bombs[i].calculate_probability_of_solution(number_of_solutions, i+1)
-        print(i, Bombs[i].probability*100)
-        ss += Bombs[i].probability*100
+        print(i, Bombs[i].probability)
+        ss += Bombs[i].probability
 
     print(ss)
 
