@@ -92,10 +92,10 @@ class Solution:
         self.fitness = self.SolutionFitness(cnests)
         self.probability = 0
 
-    def crossover_on_cordinates(self):
+    def crossover_on_cordinates(self, solution):
         pass
 
-    def crossover(self):
+    def crossover_as_whole(self, solution):
         pass
 
 
@@ -197,8 +197,20 @@ def create_random_population(number_of_solutions):
 
 def main():
 
-    number_of_solutions = 6  # Preferable number_of_solutions 500
+    number_of_solutions = 500  # Preferable number_of_solutions 500
     Bombs = create_random_population(number_of_solutions) #  Populate Bombs with random solution
+
+
+    ss = 0
+    for i in range(number_of_solutions):
+        Bombs[i].calculate_probability_of_solution(number_of_solutions, i+1)
+        print(i, Bombs[i].probability*100)
+        ss += Bombs[i].probability*100
+
+    print(ss)
+
+    # while True:
+
 
 if __name__ == '__main__':
     main()
