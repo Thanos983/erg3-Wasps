@@ -23,8 +23,8 @@ class Bomb:
         self.binary_x, self.binary_y = self.float_to_bin()
 
     def get_Binary_Coordinates(self):
-        print(self.binary_x, self.binary_y)
-
+        print(self.x, self.binary_x)
+        print(self.y, self.binary_y)
 
     def float_to_bin(self):
         """
@@ -39,6 +39,15 @@ class Bomb:
 
         return bx, by
 
+
+    def Bin_to_float(self):
+        """
+        Changes the binary coordinates back to float
+        first to int and then divade it with 1000
+        """
+        binary_x = int(self.binary_x, 2) / 1000
+        binary_y = int(self.binary_y, 2) / 1000
+        return binary_x, binary_y
 
 
     def fitness(self, cnests):
@@ -82,6 +91,13 @@ class Solution:
         self.b3 = Bomb(x3, y3)
         self.fitness = self.SolutionFitness(cnests)
         self.probability = 0
+
+    def crossover_on_cordinates(self, solution):
+        pass
+
+    def crossover_as_whole(self, solution):
+        pass
+
 
     def SolutionFitness(self, cnests):
         """
@@ -181,8 +197,20 @@ def create_random_population(number_of_solutions):
 
 def main():
 
-    number_of_solutions = 6  # Preferable number_of_solutions 500
+    number_of_solutions = 500  # Preferable number_of_solutions 500
     Bombs = create_random_population(number_of_solutions) #  Populate Bombs with random solution
+
+
+    ss = 0
+    for i in range(number_of_solutions):
+        Bombs[i].calculate_probability_of_solution(number_of_solutions, i+1)
+        print(i, Bombs[i].probability*100)
+        ss += Bombs[i].probability*100
+
+    print(ss)
+
+    # while True:
+
 
 if __name__ == '__main__':
     main()
