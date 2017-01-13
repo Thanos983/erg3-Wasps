@@ -70,20 +70,17 @@ class Solution:
         """
         return self.b1.fitness(cnests) + self.b2.fitness(cnests) + self.b3.fitness(cnests)
 
+
     def calculate_probability_of_solution(self, lenght, position_of_solution):
         """
         Calculates the probability of the soltion based on the Rank Roulete Wheel
         and stores it in a variable (p = (lenght + position_of_solution + 1) / sum_of_solutions)
         input : lenght--> lenght of the list of Bombs
                 position_of_solution --> the position i in the list
-        Output: returns the probability of the Solution
+        Output: Sets the probability of the Solution
         """
 
-        sum_of_solutions = 0
-        for i in range(1,lenght+1):
-            sum_of_solutions += i
-
-        print(sum_of_solutions)
+        sum_of_solutions = int((lenght*(lenght+1)) / 2)
 
         self.probability = (lenght - position_of_solution + 1)/ sum_of_solutions
 
@@ -153,7 +150,7 @@ def create_random_population(number_of_solutions):
     """
     bombs = []
     #  Populate bombs with random number_of_solutions. Will have 6 float numbers with 3 digit precision
-    for i in range(number_of_solutions):  # Preferable range 1000
+    for i in range(number_of_solutions):
         random_bomb = random.sample(range(100000), 6)
         random_bomb[:] = [x / 1000 for x in random_bomb]
         copy_nests = openFile()  # reading the coordinates of the nests. That should be done once before for loop
@@ -166,17 +163,8 @@ def create_random_population(number_of_solutions):
 
 def main():
 
-    number_of_solutions = 6  # Preferable number_of_solutions 1000
+    number_of_solutions = 6  # Preferable number_of_solutions 500
     Bombs = create_random_population(number_of_solutions) #  Populate Bombs with random solution
-
-    s = 0
-
-    for i in range(0, number_of_solutions):
-        Bombs[i].calculate_probability_of_solution(number_of_solutions, i+1)
-        s+= Bombs[i].probability
-        print(i, Bombs[i].fitness, Bombs[i].probability*100)
-
-    print(s)
-
+    
 if __name__ == '__main__':
     main()
