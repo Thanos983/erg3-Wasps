@@ -17,12 +17,29 @@ class Bomb:
     """
 
     def __init__(self, x1, y1):
-        self.x1 = x1
-        self.y1 = y1
+        self.x = x1
+        self.y = y1
         self.count = 0
+        self.binary_x, self.binary_y = self.float_to_bin()
 
-    def getX(self):
-        return self.x1, self.y1
+    def get_Binary_Coordinates(self):
+        print(self.binary_x, self.binary_y)
+
+
+    def float_to_bin(self):
+        """
+        Changes the float coordinates of bomb(x,y) to bin
+        First by changing it to int and then to bin
+        We need 3 digits precision so we have to multiple it by 1000
+        """
+        bx = int(self.x * 1000)
+        by = int(self.y * 1000)
+        bx = format(bx, '017b')
+        by = format(by, '017b')
+
+        return bx, by
+
+
 
     def fitness(self, cnests):
         """
@@ -33,7 +50,7 @@ class Bomb:
         dmax = maxDistance(cnests)
 
         for i in range(1, cnests.__len__() + 1):
-            distance = math.sqrt((cnests[i][0] - self.x1) ** 2 + (cnests[i][1] - self.y1) ** 2)
+            distance = math.sqrt((cnests[i][0] - self.x) ** 2 + (cnests[i][1] - self.y) ** 2)
             damage = round(cnests[i][2] * dmax / (20 * distance + 0.00001))  # Many zeros occur due to truncation
 
             if damage > cnests[i][2]:
@@ -43,6 +60,9 @@ class Bomb:
                 self.count += damage
 
         return self.count
+
+    def get_Coordinates(self):
+        return self.x, self.y
 
 
 # <================================== End of class Bomb ==================================>
@@ -83,8 +103,6 @@ class Solution:
         sum_of_solutions = int((lenght*(lenght+1)) / 2)
 
         self.probability = (lenght - position_of_solution + 1)/ sum_of_solutions
-
-
 
 # <================================== End of class Solution ==============================>
 # <=======================================================================================>
@@ -165,6 +183,6 @@ def main():
 
     number_of_solutions = 6  # Preferable number_of_solutions 500
     Bombs = create_random_population(number_of_solutions) #  Populate Bombs with random solution
-    
+
 if __name__ == '__main__':
     main()
