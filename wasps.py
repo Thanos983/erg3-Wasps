@@ -116,6 +116,8 @@ class Solution:
         Output: Sets the probability of the Solution
         """
 
+        
+
         sum_of_solutions = int((lenght*(lenght+1)) / 2)
 
         self.probability = ((lenght - position_of_solution + 1)/ sum_of_solutions) * 100
