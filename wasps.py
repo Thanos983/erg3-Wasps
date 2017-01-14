@@ -123,6 +123,26 @@ class Solution:
 # <================================== End of class Solution ==============================>
 # <=======================================================================================>
 
+def Choose_Random_Solution(list_of_bombs):
+    """
+    Picks a random Solution from the list of solutions and returns it's position
+    Input: a list of solutions (list_of_bombs)
+    Output: The position of random solution
+    """
+
+    random_number = random.random() #  random number between 0.0 and 1.0
+
+    i = list_of_bombs.__len__()
+    rank_sum = 0
+    #  iterates the list from the last element to the first
+    while i>=0:
+        rank_sum += list_of_bombs[i].probability
+
+        if rank_sum > random_number
+            return i
+
+        i-=1
+
 
 def maxDistance(nest):
     """
