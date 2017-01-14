@@ -138,7 +138,7 @@ def Choose_Random_Solution(list_of_bombs):
     while i>=0:
         rank_sum += list_of_bombs[i].probability
 
-        if rank_sum > random_number
+        if rank_sum > random_number:
             return i
 
         i-=1
@@ -220,16 +220,26 @@ def main():
     number_of_solutions = 500  # Preferable number_of_solutions 500
     Bombs = create_random_population(number_of_solutions) #  Populate Bombs with random solution
 
+    generation = 1
+    while True: #  Find a proper stopping condition
+        childs = []
 
-    ss = 0
-    for i in range(number_of_solutions):
-        Bombs[i].calculate_probability_of_solution(number_of_solutions, i+1)
-        print(i, Bombs[i].probability)
-        ss += Bombs[i].probability
+        #  Elitism must happen here! If a solution passes automatically
+        #  it has to be erased from the previous list (Bombs)
 
-    print(ss)
+        for i in range(2*number_of_solutions): #  Create 2*N childs
+            pos = Choose_Random_Solution(Bombs)
+            childs.append(Bombs[i])
 
-    # while True:
+        #  We throw the parents after we choose them randomly.
+        #  Any elitism must happen before this point!
+        Bombs = []
+        #  Crossover
+        for i in range(0, 2*number_of_solutions, 2):
+            childs[i].crossover_on_cordinates(childs[i+1])
+
+
+    generation +=1
 
 
 if __name__ == '__main__':
