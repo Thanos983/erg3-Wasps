@@ -120,8 +120,26 @@ class Solution:
         return: void
         """
 
-        
+        # Sum both binary strings
 
+        temp_x = self.b1.binary_x + self.b2.binary_x + self.b3.binary_x
+        temp_y = self.b1.binary_y + self.b2.binary_y + self.b3.binary_y
+
+        sol_temp_x = solution.b1.binary_x + solution.b2.binary_x + solution.b3.binary_x
+        sol_temp_y = solution.b1.binary_y + solution.b2.binary_y + solution.b3.binary_y
+
+        # Crossover on 17 first bits
+        temp_x = temp_x[:18] + sol_temp_x[18:]
+        temp_y = temp_y[:18] + sol_temp_y[18:]
+
+        #separate the temp strings
+        self.b1.binary_x = temp_x[:18]
+        self.b2.binary_x = temp_x[18:36]
+        self.b3.binary_x = temp_x[36:]
+
+        self.b1.binary_y = temp_y[:18]
+        self.b2.binary_y = temp_y[18:36]
+        self.b3.binary_y = temp_y[36:]
 
 
     def SolutionFitness(self, cnests):
@@ -261,17 +279,16 @@ def main():
 
         #  We throw the parents after we choose them randomly.
         #  Any elitism must happen before this point!
-
+        bombs = []
         #  Crossover
         for i in range(0, 2*number_of_solutions, 2):
             childs[i].crossover_on_cordinates(childs[i+1])
+            Bombs.append(childs[i])
 
-
-        Bombs = list(childs)
         childs = []
 
 
-    generation +=1
+        generation +=1
 
 
 if __name__ == '__main__':
