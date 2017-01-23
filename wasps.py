@@ -45,9 +45,9 @@ class Bomb:
         Changes the binary coordinates back to float
         first to int and then divade it with 1000
         """
-        binary_x = int(self.binary_x, 2) / 1000
-        binary_y = int(self.binary_y, 2) / 1000
-        return binary_x, binary_y
+        float_x = int(self.binary_x, 2) / 1000
+        float_y = int(self.binary_y, 2) / 1000
+        return float_x, float_y
 
 
     def fitness(self, cnests):
@@ -110,6 +110,12 @@ class Solution:
         self.b2.binary_y = self.b2.binary_y[:7] + solution.b2.binary_y[7:]
         self.b3.binary_y = self.b3.binary_y[:7] + solution.b3.binary_y[7:]
 
+        #  Update the float coordinates
+        self.b1.x, self.b1.y = self.Bin_to_float()
+        self.b2.x, self.b2.y = self.Bin_to_float()
+        self.b3.x, self.b3.y = self.Bin_to_float()
+
+
 
 
     def crossover_as_whole(self, solution):
@@ -140,6 +146,12 @@ class Solution:
         self.b1.binary_y = temp_y[:18]
         self.b2.binary_y = temp_y[18:36]
         self.b3.binary_y = temp_y[36:]
+
+        #  Update the coordinates 
+        self.b1.x, self.b1.y = self.Bin_to_float()
+        self.b2.x, self.b2.y = self.Bin_to_float()
+        self.b3.x, self.b3.y = self.Bin_to_float()
+
 
 
     def SolutionFitness(self, cnests):
