@@ -1,5 +1,6 @@
 import random
 import math
+import time
 
 try:
     import operator
@@ -111,9 +112,9 @@ class Solution:
         self.b3.binary_y = self.b3.binary_y[:7] + solution.b3.binary_y[7:]
 
         #  Update the float coordinates
-        self.b1.x, self.b1.y = self.Bin_to_float()
-        self.b2.x, self.b2.y = self.Bin_to_float()
-        self.b3.x, self.b3.y = self.Bin_to_float()
+        self.b1.x, self.b1.y = self.b1.Bin_to_float()
+        self.b2.x, self.b2.y = self.b2.Bin_to_float()
+        self.b3.x, self.b3.y = self.b3.Bin_to_float()
 
 
 
@@ -147,10 +148,10 @@ class Solution:
         self.b2.binary_y = temp_y[18:36]
         self.b3.binary_y = temp_y[36:]
 
-        #  Update the coordinates 
-        self.b1.x, self.b1.y = self.Bin_to_float()
-        self.b2.x, self.b2.y = self.Bin_to_float()
-        self.b3.x, self.b3.y = self.Bin_to_float()
+        #  Update the coordinates
+        self.b1.x, self.b1.y = self.b1.Bin_to_float()
+        self.b2.x, self.b2.y = self.b2.Bin_to_float()
+        self.b3.x, self.b3.y = self.b3.Bin_to_float()
 
 
 
@@ -172,7 +173,6 @@ class Solution:
         """
 
         sum_of_solutions = int((lenght*(lenght+1)) / 2)
-
         self.probability = ((lenght - position_of_solution + 1)/ sum_of_solutions) * 100
 
 # <================================== End of class Solution ==============================>
@@ -192,7 +192,7 @@ def Choose_Random_Solution(list_of_bombs):
     #  iterates the list from the last element to the first
     while i>=0:
         rank_sum += list_of_bombs[i].probability
-
+        print (i, rank_sum, list_of_bombs[i].probability)
         if rank_sum > random_number:  #  there is a case which no bomb returns
             return i
 
@@ -279,19 +279,36 @@ def main():
 
     generation = 1
     while True: #  Find a proper stopping condition
+
+        #  Calculate probability of every solution
+        for i in range(number_of_solutions):
+            Bombs[i].calculate_probability_of_solution(i, number_of_solutions)
+
+
         childs = []
+        Bombs.sort(key=key_fun, reverse=True)
+        print(generation, Bombs[0].fitness)
+        print()
+
 
         #  Elitism must happen here! If a solution passes automatically
         #  it has to be erased from the previous list ()
         pos = -1
 
+        #  Something is not right here. Probably on Choose_Random_Solution!!!
         for i in range(2*number_of_solutions): #  Create 2*N childs
             pos = Choose_Random_Solution(Bombs)
             childs.append(Bombs[pos])
 
         #  We throw the parents after we choose them randomly.
         #  Any elitism must happen before this point!
-        bombs = []
+        print(generation, Bombs[0].fitness)
+        Bombs = []
+        print()
+
+
+        time.sleep(5)
+
         #  Crossover
         for i in range(0, 2*number_of_solutions, 2):
             childs[i].crossover_on_cordinates(childs[i+1])
