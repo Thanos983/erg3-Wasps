@@ -93,10 +93,35 @@ class Solution:
         self.probability = 0
 
     def crossover_on_cordinates(self, solution):
-        pass
+        """
+        Crossovers every binary coordinate and returns it to self!
+        Crossover takes place at the first 6 bits of the self object and at the
+        rest 11 bits of the solution object
+
+        inpurt: A solution object
+        return: void
+        """
+
+        self.b1.binary_x = self.b1.binary_x[:7] + solution.b1.binary_x[7:]
+        self.b2.binary_x = self.b2.binary_x[:7] + solution.b2.binary_x[7:]
+        self.b3.binary_x = self.b3.binary_x[:7] + solution.b3.binary_x[7:]
+
+        self.b1.binary_y = self.b1.binary_y[:7] + solution.b1.binary_y[7:]
+        self.b2.binary_y = self.b2.binary_y[:7] + solution.b2.binary_y[7:]
+        self.b3.binary_y = self.b3.binary_y[:7] + solution.b3.binary_y[7:]
+
+
 
     def crossover_as_whole(self, solution):
-        pass
+        """
+        Sums the three bombs binary coordinates and crossovers it as a whole
+        and returns it to the self object
+        input: A solution object
+        return: void
+        """
+
+        
+
 
 
     def SolutionFitness(self, cnests):
@@ -116,8 +141,6 @@ class Solution:
         Output: Sets the probability of the Solution
         """
 
-        
-
         sum_of_solutions = int((lenght*(lenght+1)) / 2)
 
         self.probability = ((lenght - position_of_solution + 1)/ sum_of_solutions) * 100
@@ -134,16 +157,18 @@ def Choose_Random_Solution(list_of_bombs):
 
     random_number = random.random() #  random number between 0.0 and 1.0
 
-    i = list_of_bombs.__len__()
+    i = list_of_bombs.__len__() - 1
     rank_sum = 0
     #  iterates the list from the last element to the first
     while i>=0:
         rank_sum += list_of_bombs[i].probability
 
-        if rank_sum > random_number:
+        if rank_sum > random_number:  #  there is a case which no bomb returns
             return i
 
         i-=1
+
+    return 0
 
 
 def maxDistance(nest):
@@ -227,18 +252,23 @@ def main():
         childs = []
 
         #  Elitism must happen here! If a solution passes automatically
-        #  it has to be erased from the previous list (Bombs)
+        #  it has to be erased from the previous list ()
+        pos = -1
 
         for i in range(2*number_of_solutions): #  Create 2*N childs
             pos = Choose_Random_Solution(Bombs)
-            childs.append(Bombs[i])
+            childs.append(Bombs[pos])
 
         #  We throw the parents after we choose them randomly.
         #  Any elitism must happen before this point!
-        Bombs = []
+
         #  Crossover
         for i in range(0, 2*number_of_solutions, 2):
             childs[i].crossover_on_cordinates(childs[i+1])
+
+
+        Bombs = list(childs)
+        childs = []
 
 
     generation +=1
