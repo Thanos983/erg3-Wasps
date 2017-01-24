@@ -274,7 +274,7 @@ def create_random_population(number_of_solutions):
 
 def main():
 
-    number_of_solutions = 500  # Preferable number_of_solutions 500
+    number_of_solutions = 100  # Preferable number_of_solutions 500
     Bombs = create_random_population(number_of_solutions) #  Populate Bombs with random solution
 
     generation = 1
@@ -285,11 +285,10 @@ def main():
         #  Calculate probability of every solution
         for i in range(number_of_solutions):
             Bombs[i].calculate_probability_of_solution(number_of_solutions, i)
-            print(Bombs[i].fitness)
 
-        #  Elitism must happen here! If a solution passes automatically
-        #  it has to be erased from the previous list ()
+
         elitism = int((1/100)*number_of_solutions) #  1% elitism
+
         for j in range(elitism):
             childs.append(Bombs[j])
 
@@ -302,18 +301,21 @@ def main():
         print("Generation: "+ str(generation) + " Best Fitness: " + str(Bombs[0].fitness) +
                                                 " Worst Fitness: " + str(Bombs[Bombs.__len__()-1].fitness))
 
-        print()
+
         time.sleep(5)
         Bombs = []
 
         #  Crossover
         for i in range(0, 2*number_of_solutions, 2):
-            childs[i].crossover_as_whole(childs[i+1])
+            childs[i].crossover_on_cordinates(childs[i+1])
             Bombs.append(childs[i])
 
         childs = []
         generation +=1
 
+        if(Bombs[0].fitness == Bombs[Bombs.__len__()-1].fitness):
+            print("Worst fitness equals to best fitness")
+            break
 
 if __name__ == '__main__':
     main()
