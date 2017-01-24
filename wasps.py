@@ -192,7 +192,7 @@ def Choose_Random_Solution(list_of_bombs):
     #  iterates the list from the last element to the first
     while i>=0:
         rank_sum += list_of_bombs[i].probability
-        print (i, rank_sum, list_of_bombs[i].probability)
+
         if rank_sum > random_number:  #  there is a case which no bomb returns
             return i
 
@@ -274,7 +274,7 @@ def create_random_population(number_of_solutions):
 
 def main():
 
-    number_of_solutions = 500  # Preferable number_of_solutions 500
+    number_of_solutions = 1000  # Preferable number_of_solutions 500
     Bombs = create_random_population(number_of_solutions) #  Populate Bombs with random solution
 
     generation = 1
@@ -282,7 +282,7 @@ def main():
 
         #  Calculate probability of every solution
         for i in range(number_of_solutions):
-            Bombs[i].calculate_probability_of_solution(i, number_of_solutions)
+            Bombs[i].calculate_probability_of_solution(number_of_solutions, i)
 
 
         childs = []
@@ -293,7 +293,6 @@ def main():
 
         #  Elitism must happen here! If a solution passes automatically
         #  it has to be erased from the previous list ()
-        pos = -1
 
         #  Something is not right here. Probably on Choose_Random_Solution!!!
         for i in range(2*number_of_solutions): #  Create 2*N childs
@@ -302,7 +301,8 @@ def main():
 
         #  We throw the parents after we choose them randomly.
         #  Any elitism must happen before this point!
-        print(generation, Bombs[0].fitness)
+        print("Generation: "+ str(generation) + " Best Fitness: " + str(Bombs[0].fitness) +
+                                                " Worst Fitness: " + str(Bombs[Bombs.__len__()-1].fitness))
         Bombs = []
         print()
 
