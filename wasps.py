@@ -175,6 +175,10 @@ class Solution:
         sum_of_solutions = int((lenght*(lenght+1)) / 2)
         self.probability = ((lenght - position_of_solution + 1)/ sum_of_solutions) * 100
 
+
+    def mutation(self):
+        pass
+
 # <================================== End of class Solution ==============================>
 # <=======================================================================================>
 
@@ -193,7 +197,7 @@ def Choose_Random_Solution(list_of_bombs):
     while i>=0:
         rank_sum += list_of_bombs[i].probability
 
-        if rank_sum > random_number:  #  there is a case which no bomb returns
+        if rank_sum > random_number:
             return i
 
         i-=1
@@ -274,7 +278,7 @@ def create_random_population(number_of_solutions):
 
 def main():
 
-    number_of_solutions = 100  # Preferable number_of_solutions 500
+    number_of_solutions = 500  # Preferable number_of_solutions 500
     Bombs = create_random_population(number_of_solutions) #  Populate Bombs with random solution
 
     generation = 1
@@ -285,6 +289,7 @@ def main():
         #  Calculate probability of every solution
         for i in range(number_of_solutions):
             Bombs[i].calculate_probability_of_solution(number_of_solutions, i)
+            print(Bombs[i].fitness)
 
 
         elitism = int((1/100)*number_of_solutions) #  1% elitism
@@ -302,17 +307,17 @@ def main():
                                                 " Worst Fitness: " + str(Bombs[Bombs.__len__()-1].fitness))
 
 
-        time.sleep(5)
+        time.sleep(5)  #  For debugging purposes only
         Bombs = []
 
         #  Crossover
-        for i in range(0, number_of_solutions):
+        for i in range(number_of_solutions):
             #  pick a random child but not it's self, in order to crossover
             pos = random.randint(0,number_of_solutions-1)
             while pos == i :
                 pos = random.randint(0, number_of_solutions-1)
 
-            childs[i].crossover_on_cordinates(childs[pos])
+            childs[i].crossover_as_whole(childs[pos])
             Bombs.append(childs[i])
 
         childs = []
