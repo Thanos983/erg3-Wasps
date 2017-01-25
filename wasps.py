@@ -147,8 +147,8 @@ class Solution:
         self.b3.binary_x = temp_x[36:]
 
         self.b1.binary_y = temp_y[:18]
-        self.b2.binary_y = temp_y[18:36]
-        self.b3.binary_y = temp_y[36:]
+        self.b2.binary_y = temp_y[18:35]
+        self.b3.binary_y = temp_y[35:]
 
         self.mutation()
 
