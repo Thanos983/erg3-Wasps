@@ -148,6 +148,8 @@ class Solution:
         self.b2.binary_y = temp_y[18:36]
         self.b3.binary_y = temp_y[36:]
 
+        self.mutation()
+
         #  Update the coordinates
         self.b1.x, self.b1.y = self.b1.Bin_to_float()
         self.b2.x, self.b2.y = self.b2.Bin_to_float()
@@ -177,7 +179,63 @@ class Solution:
 
 
     def mutation(self):
-        pass
+        percentage = 20/100  # percentage of mutation
+        p = random.random()
+
+        if(p<=percentage):
+            position_of_bomb = random.randint(0,2)
+            choose_coordinate = random.randint(1,2)
+            choose_bit = random.randint(0,15)
+
+            if position_of_bomb == 0:
+                #first bomb
+                if choose_coordinate == 1:
+                    #chose x
+                    if self.b1.binary_x[choose_bit] == '1':
+                        self.b1.binary_x = self.b1.binary_x[:choose_bit] + '0' + self.b1.binary_x[choose_bit+1:]
+                    else:
+                        self.b1.binary_x = self.b1.binary_x[:choose_bit] + '1' + self.b1.binary_x[choose_bit+1:]
+                elif choose_coordinate == 2:
+                    #chose y
+                    if self.b1.binary_y[choose_bit] == '1':
+                        self.b1.binary_y = self.b1.binary_y[:choose_bit] + '0' + self.b1.binary_y[choose_bit+1:]
+                    else:
+                        self.b1.binary_y = self.b1.binary_y[:choose_bit] + '1' + self.b1.binary_y[choose_bit+1:]
+
+            elif position_of_bomb == 1:
+                #first bomb
+                if choose_coordinate == 1:
+                    #chose x
+                    if self.b2.binary_x[choose_bit] == '1':
+                        self.b2.binary_x = self.b2.binary_x[:choose_bit] + '0' + self.b2.binary_x[choose_bit+1:]
+                    else:
+                        self.b2.binary_x = self.b2.binary_x[:choose_bit] + '1' + self.b2.binary_x[choose_bit+1:]
+                elif choose_coordinate == 2:
+                    #chose y
+                    if self.b2.binary_y[choose_bit] == '1':
+                        self.b2.binary_y = self.b2.binary_y[:choose_bit] + '0' + self.b2.binary_y[choose_bit+1:]
+                    else:
+                        self.b2.binary_y = self.b2.binary_y[:choose_bit] + '1' + self.b2.binary_y[choose_bit+1:]
+
+
+            elif position_of_bomb == 2:
+                #first bomb
+                if choose_coordinate == 1:
+                    #chose x
+                    if self.b3.binary_x[choose_bit] == '1':
+                        self.b3.binary_x = self.b3.binary_x[:choose_bit] + '0' + self.b3.binary_x[choose_bit+1:]
+                    else:
+                        self.b3.binary_x = self.b3.binary_x[:choose_bit] + '1' + self.b3.binary_x[choose_bit+1:]
+                elif choose_coordinate == 2:
+                    #chose y
+                    if self.b3.binary_y[choose_bit] == '1':
+                        self.b3.binary_y = self.b3.binary_y[:choose_bit] + '0' + self.b3.binary_y[choose_bit+1:]
+                    else:
+                        self.b3.binary_y = self.b3.binary_y[:choose_bit] + '1' + self.b3.binary_y[choose_bit+1:]
+
+
+
+
 
 # <================================== End of class Solution ==============================>
 # <=======================================================================================>
