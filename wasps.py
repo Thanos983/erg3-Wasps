@@ -292,7 +292,7 @@ def main():
         for j in range(elitism):
             childs.append(Bombs[j])
 
-        for i in range(elitism,2*number_of_solutions): #  Create 2*N childs
+        for i in range(elitism, number_of_solutions): #  Create 2*N childs
             pos = Choose_Random_Solution(Bombs)
             childs.append(Bombs[pos])
 
@@ -306,8 +306,13 @@ def main():
         Bombs = []
 
         #  Crossover
-        for i in range(0, 2*number_of_solutions, 2):
-            childs[i].crossover_on_cordinates(childs[i+1])
+        for i in range(0, number_of_solutions):
+            #  pick a random child but not it's self, in order to crossover
+            pos = random.randint(0,number_of_solutions-1)
+            while pos == i :
+                pos = random.randint(0, number_of_solutions-1)
+
+            childs[i].crossover_on_cordinates(childs[pos])
             Bombs.append(childs[i])
 
         childs = []
