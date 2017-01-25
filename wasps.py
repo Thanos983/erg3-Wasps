@@ -111,6 +111,8 @@ class Solution:
         self.b2.binary_y = self.b2.binary_y[:7] + solution.b2.binary_y[7:]
         self.b3.binary_y = self.b3.binary_y[:7] + solution.b3.binary_y[7:]
 
+        self.mutation()
+
         #  Update the float coordinates
         self.b1.x, self.b1.y = self.b1.Bin_to_float()
         self.b2.x, self.b2.y = self.b2.Bin_to_float()
@@ -179,8 +181,8 @@ class Solution:
 
 
     def mutation(self):
-        percentage = 20/100  # percentage of mutation
-        p = random.random()
+        percentage = 20  # percentage of mutation
+        p = random.randint(0,100)
 
         if(p<=percentage):
             position_of_bomb = random.randint(0,2)
@@ -228,6 +230,7 @@ class Solution:
                         self.b3.binary_x = self.b3.binary_x[:choose_bit] + '1' + self.b3.binary_x[choose_bit+1:]
                 elif choose_coordinate == 2:
                     #chose y
+
                     if self.b3.binary_y[choose_bit] == '1':
                         self.b3.binary_y = self.b3.binary_y[:choose_bit] + '0' + self.b3.binary_y[choose_bit+1:]
                     else:
@@ -375,7 +378,7 @@ def main():
             while pos == i :
                 pos = random.randint(0, number_of_solutions-1)
 
-            childs[i].crossover_as_whole(childs[pos])
+            childs[i].crossover_on_cordinates(childs[pos])
             Bombs.append(childs[i])
 
         childs = []
