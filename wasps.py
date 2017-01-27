@@ -23,6 +23,10 @@ class Bomb:
         self.count = 0
         self.binary_x, self.binary_y = self.float_to_bin()
 
+    def get_Bomb(self):
+        print("x: " + str(self.x) + " Binary_x: " + self.binary_x +
+            " y: " + str(self.y) + " Binary_y: " + self.binary_y)
+
     def get_Binary_Coordinates(self):
         print(self.x, self.binary_x)
         print(self.y, self.binary_y)
@@ -93,6 +97,14 @@ class Solution:
         self.fitness = self.SolutionFitness(cnests)
         self.probability = 0
 
+    def get_Solution(self):
+        self.b1.get_Bomb()
+        self.b2.get_Bomb()
+        self.b3.get_Bomb()
+        print("Fitness of solution: " + str(self.fitness))
+        print()
+
+
     def crossover_on_cordinates(self, solution):
         """
         Crossovers every binary coordinate and returns it to self!
@@ -102,14 +114,23 @@ class Solution:
         inpurt: A solution object
         return: void
         """
+        random_pos = random.randint(0, self.b1.binary_x.__len__()-1)
+        self.b1.binary_x = self.b1.binary_x[:random_pos] + solution.b1.binary_x[random_pos:]
 
-        self.b1.binary_x = self.b1.binary_x[:7] + solution.b1.binary_x[7:]
-        self.b2.binary_x = self.b2.binary_x[:7] + solution.b2.binary_x[7:]
-        self.b3.binary_x = self.b3.binary_x[:7] + solution.b3.binary_x[7:]
+        random_pos = random.randint(0, self.b1.binary_x.__len__()-1)
+        self.b2.binary_x = self.b2.binary_x[:random_pos] + solution.b2.binary_x[random_pos:]
 
-        self.b1.binary_y = self.b1.binary_y[:7] + solution.b1.binary_y[7:]
-        self.b2.binary_y = self.b2.binary_y[:7] + solution.b2.binary_y[7:]
-        self.b3.binary_y = self.b3.binary_y[:7] + solution.b3.binary_y[7:]
+        random_pos = random.randint(0, self.b1.binary_x.__len__()-1)
+        self.b3.binary_x = self.b3.binary_x[:random_pos] + solution.b3.binary_x[random_pos:]
+
+        random_pos = random.randint(0, self.b1.binary_x.__len__()-1)
+        self.b1.binary_y = self.b1.binary_y[:random_pos] + solution.b1.binary_y[random_pos:]
+
+        random_pos = random.randint(0, self.b1.binary_x.__len__()-1)
+        self.b2.binary_y = self.b2.binary_y[:random_pos] + solution.b2.binary_y[random_pos:]
+
+        random_pos = random.randint(0, self.b1.binary_x.__len__()-1)
+        self.b3.binary_y = self.b3.binary_y[:random_pos] + solution.b3.binary_y[random_pos:]
 
         self.mutation()
 
@@ -378,7 +399,15 @@ def main():
             while pos == i :
                 pos = random.randint(0, number_of_solutions-1)
 
+            # print("Parent 1")
+            # childs[i].get_Solution()
+            # print("Parent 2")
+            # childs[pos].get_Solution()
             childs[i].crossover_on_cordinates(childs[pos])
+            # print("Child")
+            # childs[i].get_Solution()
+            # print()
+            # print()
             Bombs.append(childs[i])
 
         childs = []
