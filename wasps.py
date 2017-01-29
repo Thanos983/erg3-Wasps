@@ -105,7 +105,7 @@ class Solution:
         print()
 
 
-    def crossover_on_cordinates(self, solution):
+    def crossover_on_cordinates(self, solution, cnests):
         """
         Crossovers every binary coordinate and returns it to self!
         Crossover takes place at the first 6 bits of the self object and at the
@@ -139,7 +139,7 @@ class Solution:
         self.b2.x, self.b2.y = self.b2.Bin_to_float()
         self.b3.x, self.b3.y = self.b3.Bin_to_float()
 
-
+        self.fitness = self.SolutionFitness(cnests)
 
 
     def crossover_as_whole(self, solution):
@@ -362,8 +362,9 @@ def main():
 
     number_of_solutions = 500  # Preferable number_of_solutions 500
     Bombs = create_random_population(number_of_solutions) #  Populate Bombs with random solution
-
+    nests = openFile()
     generation = 1
+
     while True: #  Find a proper stopping condition
 
         childs = []
@@ -403,7 +404,7 @@ def main():
             # childs[i].get_Solution()
             # print("Parent 2")
             # childs[pos].get_Solution()
-            childs[i].crossover_on_cordinates(childs[pos])
+            childs[i].crossover_on_cordinates(childs[pos], nests)
             # print("Child")
             # childs[i].get_Solution()
             # print()
