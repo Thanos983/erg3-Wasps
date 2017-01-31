@@ -360,19 +360,19 @@ def create_random_population(number_of_solutions):
 
 def main():
 
-    number_of_solutions = 500  # Preferable number_of_solutions 500
+    number_of_solutions = 1000  # Preferable number_of_solutions 500
     Bombs = create_random_population(number_of_solutions) #  Populate Bombs with random solution
     nests = openFile()
     generation = 1
 
-    while True: #  Find a proper stopping condition
+    while generation<=220: #  Find a proper stopping condition
 
         childs = []
         Bombs.sort(key=key_fun, reverse=True)
         #  Calculate probability of every solution
         for i in range(number_of_solutions):
             Bombs[i].calculate_probability_of_solution(number_of_solutions, i)
-            print(Bombs[i].fitness)
+            # print(Bombs[i].fitness)
 
 
         elitism = int((1/100)*number_of_solutions) #  1% elitism
@@ -390,7 +390,7 @@ def main():
                                                 " Worst Fitness: " + str(Bombs[Bombs.__len__()-1].fitness))
 
 
-        time.sleep(5)  #  For debugging purposes only
+        # time.sleep(5)  #  For debugging purposes only
         Bombs = []
 
         #  Crossover
